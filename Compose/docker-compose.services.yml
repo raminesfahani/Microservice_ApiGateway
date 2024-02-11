@@ -1,0 +1,65 @@
+version: '3.5'
+
+services:
+  users_service:
+    build:
+      context: ../
+      dockerfile: Src/UsersService/Dockerfile
+    container_name: users_service
+    restart: unless-stopped
+    networks:
+      - network-microservice
+    links:
+      - rabbitmq
+      - db
+      - mongo
+      - consul
+    depends_on:
+      - rabbitmq
+      - db
+      - mongo
+      - consul
+    environment:
+    - ASPNETCORE_URLS=http://+
+
+  movies_service:
+    build:
+      context: ../
+      dockerfile: Src/MoviesService/Dockerfile
+    container_name: movies_service
+    restart: unless-stopped
+    networks:
+      - network-microservice
+    links:
+      - rabbitmq
+      - db
+      - mongo
+      - consul
+    depends_on:
+      - rabbitmq
+      - db
+      - mongo
+      - consul
+    environment:
+      - ASPNETCORE_URLS=http://+
+
+  reviews_service:
+    build:
+      context: ../
+      dockerfile: Src/ReviewsService/Dockerfile
+    container_name: reviews_service
+    restart: unless-stopped
+    networks:
+      - network-microservice
+    links:
+      - rabbitmq
+      - db
+      - mongo
+      - consul
+    depends_on:
+      - rabbitmq
+      - db
+      - mongo
+      - consul
+    environment:
+      - ASPNETCORE_URLS=http://+
